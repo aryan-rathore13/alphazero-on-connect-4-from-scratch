@@ -63,8 +63,15 @@ def four_in_a_row_horizontal(board):
                 return window[0]
     return 0
 
-# Step 7 - four_in_a_row_vertical (not yet solved)
-# TODO: implement
+# Step 7 - four_in_a_row_vertical
+def four_in_a_row_vertical(board):
+    # TODO: scan every column for four consecutive matching non-zero pieces vertically
+    for col in range(7):
+        for row in range(3):
+            window = board[row:row+4,col]
+            if window[0]!=0 and np.all(window==window[0]):
+                return window[0]
+    return 0
 
 # Step 8 - four_in_a_row_diagonal_down_right (not yet solved)
 # TODO: implement
