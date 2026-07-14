@@ -84,8 +84,16 @@ def four_in_a_row_diagonal_down_right(board):
                 return diag[0]
     return 0
 
-# Step 9 - four_in_a_row_diagonal_up_right (not yet solved)
-# TODO: implement
+# Step 9 - four_in_a_row_diagonal_up_right
+def four_in_a_row_diagonal_up_right(board):
+    # TODO: scan every up-right diagonal for four consecutive matching non-zero pieces
+    for row in range(3):
+        for col in range(4):
+            window = board[row:row+4,col:col+4]
+            diag = np.diagonal(np.fliplr(window))
+            if diag[0] != 0 and np.all(diag==diag[0]):
+                return diag[0]
+    return 0
 
 # Step 10 - check_winner (not yet solved)
 # TODO: implement
