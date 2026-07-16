@@ -18,6 +18,8 @@ def make_empty_board():
 def column_top_row(board, column):
     """Return the lowest empty row in `column`, or -1 if the column is full."""
     # TODO: scan the column from the bottom up and return the first empty row index
+    if board[0][column] != 0:
+        return -1
     for i in range(6-1,-1,-1):
         if board[i][column]==0:
             return i
@@ -110,8 +112,13 @@ def check_winner(board):
             return winner 
     return 0
 
-# Step 11 - board_is_full (not yet solved)
-# TODO: implement
+# Step 11 - board_is_full
+def board_is_full(board):
+    # TODO: return True when no column has an empty slot left
+    result = valid_moves(board)
+    if not result:
+        return True
+    return False
 
 # Step 12 - is_terminal (not yet solved)
 # TODO: implement
