@@ -136,8 +136,16 @@ def other_player(player):
     # TODO: return the opponent's player code (1 <-> 2)
     return 3-player
 
-# Step 14 - step_env (not yet solved)
-# TODO: implement
+# Step 14 - step_env
+import numpy as np
+def step_env(board, column, player):
+    # TODO: drop piece for player, then return (new_board, done, winner, next_player).
+    new_board = np.copy(board)
+    new_board=drop_piece(new_board,column,player)
+    result = check_winner(new_board)
+    if not result:
+        return (new_board,False,int(result),other_player(player))
+    return (new_board,True,int(result),other_player(player))
 
 # Step 15 - encode_board (not yet solved)
 # TODO: implement
