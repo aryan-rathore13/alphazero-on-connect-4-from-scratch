@@ -363,8 +363,16 @@ def select_best_child(node, legal_actions, c_puct=1.5):
             best_score=curr_score
     return best_action,best_child
 
-# Step 31 - select_leaf (not yet solved)
-# TODO: implement
+# Step 31 - select_leaf
+def select_leaf(root, c_puct):
+    # TODO: walk down the MCTS tree picking the best PUCT child until a non-expanded node is reached
+    curr = root
+
+    while len(curr["children"])>0:
+        legal_actions = list(curr["children"].keys())
+        _,curr = select_best_child(curr,legal_actions,c_puct=c_puct)
+    
+    return curr
 
 # Step 32 - evaluate_with_network (not yet solved)
 # TODO: implement
