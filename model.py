@@ -443,8 +443,16 @@ def run_one_simulation(root, net, c_puct):
         expand_node(leaf,priors)
     backup_value(leaf,value)
 
-# Step 36 - run_mcts (not yet solved)
-# TODO: implement
+# Step 36 - run_mcts
+def run_mcts(state, to_play, net, num_simulations, c_puct):
+    # TODO: build a fresh root for (state, to_play) and run num_simulations PUCT simulations
+    root = make_mcts_node(prior=0.0,parent=None)
+    root["board"] = state
+    root["to_play"]=to_play
+
+    for _ in range(num_simulations):
+        run_one_simulation(root,net,c_puct=c_puct)
+    return root
 
 # Step 37 - visit_count_policy (not yet solved)
 # TODO: implement
