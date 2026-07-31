@@ -325,7 +325,7 @@ def make_mcts_node(prior=0.0, parent=None):
         "visit_count": 0,
         "value_sum": 0.0,
         "children": {},
-        "parent": parent
+        "parent": parent,
     }
 
 # Step 28 - node_q_value
@@ -420,8 +420,28 @@ def backup_value(leaf, value):
         value = -value
         curr = curr["parent"]
 
-# Step 35 - run_one_simulation (not yet solved)
-# TODO: implement
+# Step 35 - run_one_simulation
+def run_one_simulation(root, net, c_puct):
+    # TODO: run one MCTS simulation: select a leaf, evaluate, expand if non-terminal, backup.
+    #Selected the best leaf child
+    leaf = select_leaf(root,c_puct=c_puct)
+
+    current_board = leaf["board"]
+    current_player = leaf["to_play"]
+    done,winner = is_terminal(current_board)
+
+    if done:
+        leaf["is_expanded"] = False
+        if winner == current_player:
+            value = 1.0
+        elif winner == 0:
+            value = 0.0
+        else:
+            value = -1.0
+    else:
+        priors , value = evaluate_with_network(net,current_board,current_player)
+        expand_node(leaf,priors)
+    backup_value(leaf,value)
 
 # Step 36 - run_mcts (not yet solved)
 # TODO: implement
