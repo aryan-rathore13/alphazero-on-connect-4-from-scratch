@@ -454,8 +454,40 @@ def run_mcts(state, to_play, net, num_simulations, c_puct):
         run_one_simulation(root,net,c_puct=c_puct)
     return root
 
-# Step 37 - visit_count_policy (not yet solved)
-# TODO: implement
+# Step 37 - visit_count_policy
+# Step 37 - visit_count_policy
+import numpy as np
+
+def visit_count_policy(root, temperature=1.0):
+    # Use standard float (float64) to avoid float32 precision rounding errors
+    visits = np.zeros(7, dtype=float)
+    
+    for action, child in root["children"].items():
+        v = child.get("visit_count", child.get("visits", 0))
+        visits[action] = float(v)
+        
+    total_visits = np.sum(visits)
+    
+    # Edge case: No visits or empty tree
+    if total_visits == 0 or len(root["children"]) == 0:
+        return np.full(7, 1.0 / 7.0, dtype=float)
+        
+    # Temperature = 0: Greedy max choice
+    if temperature == 0:
+        pi = np.zeros(7, dtype=float)
+        max_v = np.max(visits)
+        best_indices = np.where(visits == max_v)[0]
+        pi[best_indices] = 1.0 / len(best_indices)
+        return pi
+        
+    # Temperature = 1.0: Exact division without exponent noise
+    if temperature == 1.0:
+        return visits / total_visits
+        
+    # Temperature > 0: Tempered visits
+    tempered_visits = visits ** (1.0 / temperature)
+    pi = tempered_visits / np.sum(tempered_visits)
+    return pi
 
 # Step 38 - mcts_choose_action (not yet solved)
 # TODO: implement
