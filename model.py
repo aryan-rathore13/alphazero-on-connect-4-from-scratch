@@ -489,8 +489,28 @@ def visit_count_policy(root, temperature=1.0):
     pi = tempered_visits / np.sum(tempered_visits)
     return pi
 
-# Step 38 - mcts_choose_action (not yet solved)
-# TODO: implement
+# Step 38 - mcts_choose_action
+# Step 38 - mcts_choose_action
+import numpy as np
+import torch
+
+def mcts_choose_action(state, to_play, net, num_simulations=100, c_puct=1.5, temperature=1.0):
+    """Drive MCTS search from (state, to_play) and choose a move action."""
+    # 1. Run MCTS simulations from state
+    root = run_mcts(state, to_play, net, num_simulations=num_simulations, c_puct=c_puct)
+    
+    # 2. Derive the visit-count policy probability distribution pi
+    pi = visit_count_policy(root, temperature=temperature)
+    
+    # 3. Select an action based on temperature
+    if temperature == 0:
+        action = int(np.argmax(pi))
+    else:
+        # Use torch.multinomial so torch.manual_seed(...) controls determinism
+        pi_tensor = torch.from_numpy(pi).float()
+        action = int(torch.multinomial(pi_tensor, num_samples=1).item())
+        
+    return action, pi
 
 # Step 39 - record_self_play_step (not yet solved)
 # TODO: implement
