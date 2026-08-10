@@ -512,8 +512,17 @@ def mcts_choose_action(state, to_play, net, num_simulations=100, c_puct=1.5, tem
         
     return action, pi
 
-# Step 39 - record_self_play_step (not yet solved)
-# TODO: implement
+# Step 39 - record_self_play_step
+import numpy as np
+def record_self_play_step(history, board, policy, to_play):
+    # TODO: append a dict with 'board', 'policy', 'to_play' to history and return history
+    step_record = {
+        "board":np.copy(board),
+        "policy":np.copy(policy),
+        "to_play":to_play
+    }
+    history.append(step_record)
+    return history
 
 # Step 40 - play_self_play_game (not yet solved)
 # TODO: implement
