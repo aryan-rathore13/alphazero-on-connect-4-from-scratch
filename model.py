@@ -140,12 +140,10 @@ def other_player(player):
 import numpy as np
 def step_env(board, column, player):
     # TODO: drop piece for player, then return (new_board, done, winner, next_player).
-    new_board = np.copy(board)
-    new_board=drop_piece(new_board,column,player)
-    result = check_winner(new_board)
-    if not result:
-        return (new_board,False,int(result),other_player(player))
-    return (new_board,True,int(result),other_player(player))
+    new_board = drop_piece(board, column, player)
+    # Use is_terminal so BOTH wins and draws (full board) set done=True
+    done, winner = is_terminal(new_board)
+    return new_board, done, winner, other_player(player)
 
 # Step 15 - encode_board
 import numpy as np
@@ -560,8 +558,21 @@ def assign_value_targets(history, winner):
         new_history.append(new_step)
     return new_history
 
-# Step 42 - generate_self_play_batch (not yet solved)
-# TODO: implement
+# Step 42 - generate_self_play_batch
+def generate_self_play_batch(net, num_games, num_simulations, c_puct, temperature=1.0):
+    # TODO: play num_games self-play games and return a flat list of labelled step dicts.
+    buffer = []
+    for _ in range(num_games):
+        history, winner = play_self_play_game(
+            net,
+            num_simulations=num_simulations,
+            c_puct=c_puct,
+            temperature = temperature
+        )
+        labelled_steps = assign_value_targets(history,winner)
+        buffer.extend(labelled_steps)
+
+    return buffer
 
 # Step 43 - value_loss_mse (not yet solved)
 # TODO: implement
