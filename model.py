@@ -538,7 +538,7 @@ def play_self_play_game(net, num_simulations, c_puct, temperature=1.0):
         )
         record_self_play_step(history,board,pi,current_player)
         board,done,winner,current_player=step_env(board,action,current_player)
-        return history,winner
+    return history,winner
 
 # Step 41 - assign_value_targets
 def assign_value_targets(history, winner):
